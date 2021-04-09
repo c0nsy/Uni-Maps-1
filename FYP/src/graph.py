@@ -2,7 +2,7 @@
 Author: Max Dann
 Email: maxkdann@hotmail.com
 """
-
+import math
 
 class Vertex:
 
@@ -74,16 +74,18 @@ class Graph:
         """
         return iter(self.vert_dict.values())
     
-    def add_vertex(self, node):
+    def add_vertex(self, node,latitude,longitude):
         """
         Adds a vertex to the graph, updates vertex count and adds vertex to the graph dictionary
         Parameters:
             node - node id of vertex to add
+            latitude - the latitude of the new vertex
+            longitude - the longitude of the new vertex
         Returns:
             new_vertex = a new vertex object
         """
         self.num_vertices = self.num_vertices + 1
-        new_vertex = Vertex(node)
+        new_vertex = Vertex(node,latitude,longitude)
         self.vert_dict[node] = new_vertex
         return new_vertex
         
@@ -100,21 +102,21 @@ class Graph:
         else:
             return None
         
-    def add_edge(self, frm, to, cost=0):
+    def add_edge(self, frm, to):
         """
-        Adds an edge to the graph
+        Adds an edge to the graph, computes the weight using sqrt((x2-x1)^2+(y2-y1)^2)
         Parameters:
             frm - the from vertex
             to - the to vertex
-            cost - the weight of the edge between the from and to vertices
         """
+        
         if frm not in self.vert_dict:
             self.add_vertex(frm)
         if to not in self.vert_dict:
             self.add_vertex(to)
-        
-        self.vert_dict[frm].add_neighbor(self.vert_dict[to], cost)
-        self.vert_dict[to].add_neighbor(self.vert_dict[frm], cost)
+        distance = math.sqrt((self.vert_dict[to].latitude-self.vert_dict[frm].latitude)**2+(self.vert_dict[to].longitude-self.vert_dict[frm].longitude)**2)
+        self.vert_dict[frm].add_neighbor(self.vert_dict[to], distance)
+        self.vert_dict[to].add_neighbor(self.vert_dict[frm], distance)
         
     def get_vertices(self):
         """
