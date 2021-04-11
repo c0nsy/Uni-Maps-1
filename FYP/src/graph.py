@@ -17,8 +17,8 @@ class Vertex:
         """
         self.id = node
         self.adjacent = {}
-        self.latitude = latitude
-        self.longitude = longitude
+        self.latitude = float(latitude)
+        self.longitude = float(longitude)
         
     def __str__(self):
         """
