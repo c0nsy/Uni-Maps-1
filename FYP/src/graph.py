@@ -3,7 +3,6 @@ Author: Max Dann
 Email: maxkdann@hotmail.com
 """
 import math
-
 class Vertex:
 
     def __init__(self, node,latitude,longitude):
@@ -19,6 +18,12 @@ class Vertex:
         self.adjacent = {}
         self.latitude = float(latitude)
         self.longitude = float(longitude)
+        #set distance to infinity
+        self.distance = 99999
+        #mark all nodes univisted
+        self.visited = False
+        #predecessor
+        self.previous = None
         
     def __str__(self):
         """
@@ -56,7 +61,31 @@ class Vertex:
             weight - the weight of the edge connecting the two vertices
         """
         return self.adjacent[neighbor]
-
+    
+    def set_distance(self,dist):
+        self.distance = dist
+    
+    def get_distance(self):
+        return self.distance
+    
+    def set_previous(self,prev):
+        self.previous = prev
+    
+    def set_visited(self):
+        self.visited = True
+        
+    def __lt__(self,other):
+        if(self.distance<other.distance):
+            return -1
+        else:
+            return 1
+    def __eq__(self,other):
+        if(self.distance==other.distance):
+            return 1
+        else:
+            return 0
+    
+        
     
 class Graph:
 
@@ -124,4 +153,8 @@ class Graph:
         """
         return self.vert_dict.keys()
     
+    def set_previous(self,current):
+        self.previous = current
     
+    def get_previoous(self,current):
+        return self.previous
