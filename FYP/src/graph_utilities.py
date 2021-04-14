@@ -18,6 +18,7 @@ def load_graph(g):
             g.add_vertex(row[0],row[1],row[2])
     #add edges between nodes
     g.add_edge('c_1','peters_nw')
+
     g.add_edge("c_1","c_2")
     g.add_edge("c_1","c_17")
     g.add_edge("c_1","c_18")
@@ -81,7 +82,7 @@ def load_graph(g):
     
     g.add_edge("c_17","peters_sw")
     g.add_edge("c_17","schliegel_nw")
-    g.add_edge("c_18","c_18")
+    g.add_edge("c_17","c_18")
     
     g.add_edge("c_18","c_19")
     
@@ -126,18 +127,19 @@ def load_graph(g):
     g.add_edge("c_32","brickeracademic_n")
     g.add_edge("c_32","c_33")
 
-    '''
+    
+
+def display_graph(g):
+    
     #display output
     for v in g:
         for w in v.get_connections():
             vid = v.get_id()
-            wid = w.get_id()
-            print ("( %s , %s, %.6f)"  % ( vid, wid, v.get_weight(w)))
+            print ("( %s , %s, %.6f)"  % ( vid, w, v.get_weight(w)))
     
     for v in g:
         print ('g.vert_dict[%s]=%s' %(v.get_id(), g.vert_dict[v.get_id()]))
-    '''
-
+    
 def dijkstra(g,start, end):
     #set the distance from the start node to zero
     start.set_distance(0)

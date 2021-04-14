@@ -29,7 +29,7 @@ class Vertex:
         """
         To string function for readability and testing
         """
-        return str(self.id) + ' adjacent: ' + str([x.id for x in self.adjacent])
+        return str(self.id) + ' adjacent: ' + str([x for x in self.adjacent])
     
     def add_neighbor(self, neighbor, weight=0):
         """
@@ -76,15 +76,19 @@ class Vertex:
         
     def __lt__(self,other):
         if(self.distance<other.distance):
-            return -1
+            return True
         else:
-            return 1
+            return False
     def __eq__(self,other):
         if(self.distance==other.distance):
-            return 1
+            return True
         else:
-            return 0
-    
+            return False
+    def __lte__(self,other):
+        if(self.distance<=other.distance):
+            return True
+        else:
+            return False
         
     
 class Graph:
@@ -131,6 +135,7 @@ class Graph:
         else:
             return None
         
+        
     def add_edge(self, frm, to):
         """
         Adds an edge to the graph, computes the weight using sqrt((x2-x1)^2+(y2-y1)^2)
@@ -144,8 +149,8 @@ class Graph:
         if to not in self.vert_dict:
             self.add_vertex(to)
         distance = math.sqrt((self.vert_dict[to].latitude-self.vert_dict[frm].latitude)**2+(self.vert_dict[to].longitude-self.vert_dict[frm].longitude)**2)
-        self.vert_dict[frm].add_neighbor(self.vert_dict[to], distance)
-        self.vert_dict[to].add_neighbor(self.vert_dict[frm], distance)
+        self.vert_dict[frm].add_neighbor(self.vert_dict[to].id, distance)
+        self.vert_dict[to].add_neighbor(self.vert_dict[frm].id, distance)
         
     def get_vertices(self):
         """
@@ -156,5 +161,5 @@ class Graph:
     def set_previous(self,current):
         self.previous = current
     
-    def get_previoous(self,current):
+    def get_previous(self,current):
         return self.previous
