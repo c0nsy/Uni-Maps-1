@@ -126,6 +126,11 @@ def load_graph(g):
     
     g.add_edge("c_32","brickeracademic_n")
     g.add_edge("c_32","c_33")
+    #adding inter building connections
+    g.add_edge("peters_se","artsc_w")
+    g.add_edge("artsc_e","artse_w")
+    g.add_edge("dawb_s","frednichols_e")#this value is super sketchy since we couldnt get inside)
+               
 
     
 
@@ -154,15 +159,16 @@ def dijkstra(g,start, end):
         current = uv[1]
         current.set_visited()
         
-        for next in current.adjacent:
+        for adj in current.adjacent:
             #skip if visited
-            if next.visited:
+            if g.vert_dict[adj].visited:
                 continue
-            new_dist = current.get_distance + current.get_weight(next)
+            #relax edges
+            new_dist = current.get_distance() + current.get_weight(adj)
             
-            if new_dist<next.get_distance():
-                next.set_distance(new_dist)
-                next.set_previous(current)
+            if new_dist<g.vert_dict[adj].get_distance():
+                g.vert_dict[adj].set_distance(new_dist)
+                g.vert_dict[adj].set_previous(current)
                 
                 
                 
@@ -174,7 +180,7 @@ def dijkstra(g,start, end):
         unvisited_queue = [(v.get_distance(),v)for v in g if not v.visited]
         heapq.heapify(unvisited_queue)
     
-
+    
 def shortest(v, path):
     ''' make shortest path from v.previous'''
     if v.previous:
