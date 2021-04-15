@@ -130,12 +130,40 @@ def load_graph(g):
     g.add_edge("peters_se","artsc_w")
     g.add_edge("artsc_e","artse_w")
     g.add_edge("dawb_s","frednichols_e")#this value is super sketchy since we couldnt get inside)
-               
-
+    #add edges between all doors in the same building
+    #currently disabled so people dont walk through 100 buildings
+    '''
+    g.add_edge("laz_se","laz_n")
+    g.add_edge("laz_se","laz_sw")
+    g.add_edge("laz_n","laz_sw")  
     
+    g.add_edge("music_ne","music_e")   
+    g.add_edge("music_ne","music_sw")   
+    g.add_edge("music_e","music_sw")         
 
-def display_graph(g):
+    g.add_edge("dh_e","dh_s")
+    g.add_edge("dh_e","dh_w")
+    g.add_edge("dh_w","dh_s")
     
+    g.add_edge("artse_e","artse_w")
+    
+    g.add_edge("artsc_e","artsc_n")
+    g.add_edge("artsc_e","artsc_s")
+    g.add_edge("artsc_e","artsc_w")
+    g.add_edge("artsc_s","artsc_n")
+    g.add_edge("artsc_w","artsc_n")
+    g.add_edge("artsc_s","artsc_w")
+    
+    g.add_edge("peters_ne","peters_se")
+    g.add_edge("peters_ne","peters_sw")
+    g.add_edge("peters_ne","peters_nw")
+    g.add_edge("peters_se","peters_nw")
+    g.add_edge("peters_se","peters_sw")
+    g.add_edge("peters_sw","peters_nw")
+    
+    g.add_edge("schliegel_e","schliegel_nw")
+'''
+def display_graph(g): 
     #display output
     for v in g:
         for w in v.get_connections():
