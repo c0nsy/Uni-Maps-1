@@ -9,8 +9,8 @@ from graph_utilities import display_graph
 def main():
     #start = input("Input current location:");
     #end = input("Input destination:")
-    start = "c_1"
-    end = "c_9"
+    start = "dawb_n"
+    end = "science_se"
     g = Graph()
     load_graph(g)
     display_graph(g)
