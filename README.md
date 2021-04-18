@@ -1,5 +1,6 @@
-# FYP
-First Year Pathfinder by Max Dann and Connor Logan
+# Uni Maps
+
+Uni Maps by Max Dann and Connor Logan
 
 This is a project taken on in an attempt to create a "google maps for laurier" by mapping every entrance/exit to every building on campus.
 Front end HTML/CSS/JS website designed by Connor Logan;
