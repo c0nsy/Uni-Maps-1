@@ -3,10 +3,11 @@ Loading the graph with values from the csv
 '''
 import csv
 from graph import Graph
+from graph import Vertex
 import heapq
 def load_graph(g):
     """
-    populate graph object with edges and vertices
+    Populate graph object with edges and vertices
     Parameters:
         g - graph object
     
@@ -163,17 +164,29 @@ def load_graph(g):
     
     g.add_edge("schliegel_e","schliegel_nw")
 '''
-def display_graph(g): 
-    #display output
+def display_graph(g):
+    '''
+    Prints a visual representation of the graph by first printing all the edges
+    and then printing all the nodes and listing the nodes adjacent to them
+    ''' 
+    #display all edges
     for v in g:
         for w in v.get_connections():
             vid = v.get_id()
             print ("( %s , %s, %.6f)"  % ( vid, w, v.get_weight(w)))
-    
+    #display all nodes and their adjacent nodes
     for v in g:
         print ('g.vert_dict[%s]=%s' %(v.get_id(), g.vert_dict[v.get_id()]))
     
 def dijkstra(g,start, end):
+    '''
+    Calculates the shortest path from one node to another in a graph
+    Does so by updating previous and distance values for each Vertex
+    Parameters:
+        g - the Graph object (Graph)
+        start - the starting node (Vertex)
+        end - the ending node (Vertex)
+    '''
     #set the distance from the start node to zero
     start.set_distance(0)
     
@@ -186,20 +199,17 @@ def dijkstra(g,start, end):
         uv = heapq.heappop(unvisited_queue)
         current = uv[1]
         current.set_visited()
-        
+        #go through each node adjacent to current
         for adj in current.adjacent:
             #skip if visited
             if g.vert_dict[adj].visited:
                 continue
             #relax edges
             new_dist = current.get_distance() + current.get_weight(adj)
-            
             if new_dist<g.vert_dict[adj].get_distance():
                 g.vert_dict[adj].set_distance(new_dist)
                 g.vert_dict[adj].set_previous(current)
-                
-                
-                
+            
         #rebuild heap
         #step 1 pop every item
         while len(unvisited_queue):
@@ -210,9 +220,35 @@ def dijkstra(g,start, end):
     
     
 def shortest(v, path):
-    ''' make shortest path from v.previous'''
+    ''' 
+    Helper function called after Dijkstra's has been used
+    goes through the graph and finds all the previous nodes in the path from v
+    Parameters:
+        v - the end node to trace back from (Vertex)
+        path - the path of nodes in the shortest path (Array)
+    '''
     if v.previous:
-        path.append(v.previous.get_id())
-        shortest(v.previous, path)
+        path.append(v.previous.get_id()) #append the node to path if it has a previous value
+        shortest(v.previous, path) #recall the function with the previous value
     return   
     
+def get_closest_node_to_curr_location(g,latitude,longitude):
+    '''
+    Gets the closest node in the graph to the current location
+    Parameters:
+        latitude - current latitude
+        longitude - current longitude
+    Returns:
+        closest - node in graph closest to current location
+    '''
+    curr_location = Vertex("curr_location",latitude,longitude)
+    #get node with minimum distance
+    vals = g.vert_dict.values()
+    min_distance = 9999
+    for v in vals:
+        temp_distance = g.get_distance(curr_location,v)
+        if(temp_distance<min_distance):
+            min_distance = temp_distance
+            min_node = v
+            
+    return min_node

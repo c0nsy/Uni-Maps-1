@@ -63,17 +63,39 @@ class Vertex:
         return self.adjacent[neighbor]
     
     def set_distance(self,dist):
+        '''
+        Sets the distance of a vertex (from another vertex), used in disjkstras
+        Parameters:
+            dist - the distance away from another vertex (float)
+        '''
         self.distance = dist
     
     def get_distance(self):
+        '''
+        Returns the distance between another vertex object and this one
+        Returns:
+            distance - the distance (float)
+        '''
         return self.distance
     
     def set_previous(self,prev):
+        '''
+        Sets a node to have a previous node, used in dijkstras
+        Parameters:
+            prev - a previous node (Vertex)
+        '''
         self.previous = prev
     
     def set_visited(self):
+        '''
+        Updates the visited flag of a node so that it is only visited once during dijkstras
+        '''
         self.visited = True
-        
+
+
+    '''
+    Magic methods defined below to allow the heap to sort the Vertices by distance (for dijkstras)
+    '''
     def __lt__(self,other):
         if(self.distance<other.distance):
             return True
@@ -135,6 +157,14 @@ class Graph:
         else:
             return None
         
+    def get_distance(self,frm,to):
+        '''
+        Calculates the distance between two vertex objects
+        Parameters:
+            frm - the first node (Vertex)
+            to - the second node (Vertex)
+        '''
+        return math.sqrt((to.latitude-frm.latitude)**2+(to.longitude-frm.longitude)**2)
         
     def add_edge(self, frm, to):
         """
@@ -143,23 +173,23 @@ class Graph:
             frm - the from vertex
             to - the to vertex
         """
-        
+        #add frm and to to the graph if they aren't already there
         if frm not in self.vert_dict:
             self.add_vertex(frm)
         if to not in self.vert_dict:
             self.add_vertex(to)
+        #get the distance between the two vertices
         distance = math.sqrt((self.vert_dict[to].latitude-self.vert_dict[frm].latitude)**2+(self.vert_dict[to].longitude-self.vert_dict[frm].longitude)**2)
+        #add the vertices to each others' adjacency lists
         self.vert_dict[frm].add_neighbor(self.vert_dict[to].id, distance)
         self.vert_dict[to].add_neighbor(self.vert_dict[frm].id, distance)
         
     def get_vertices(self):
         """
         Returns all the vertices in the graph
+        Returns:
+            keys - a list of all the keys of the vert_dict dictionary (Array of Vertex objects)
         """
         return self.vert_dict.keys()
     
-    def set_previous(self,current):
-        self.previous = current
-    
-    def get_previous(self,current):
-        return self.previous
+
