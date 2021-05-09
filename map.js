@@ -1025,7 +1025,7 @@ Vertex.prototype.equals = function (other){
 /**
  * Minimum Heap class used as a Priority Queue in Dijkstra's
  */
- export class MinHeap {
+ class MinHeap {
     constructor() {
        this.items = []; 
     }
